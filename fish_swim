@@ -1,1 +1,1025 @@
-print ("hi")
+#Alishba Mateen
+#January 20, 2022
+#purpose: to create a game that uses pygame
+#title of game: Fishy Swim
+import pygame
+import sys
+import time
+import easygui
+# libraries are imported
+
+#the function for displaying the instructions is created 
+def instructions ():
+  pygame.init()
+  #pygame is initiated
+  size= (1000, 600)
+  global screen
+  screen = pygame.display.set_mode(size)
+  #screen size is set
+  global BLUE
+  global WHITE
+  BLUE= (0, 102, 204)
+  WHITE= (255, 255, 255)
+  #rgb colours are assigned to variables
+  pygame.display.set_caption("Instructions")
+  #display caption is set to the name of the game
+  screen.fill(BLUE)
+  #title page background is set to blue
+  message= ("INSTRUCTIONS FOR FISHY SWIM")
+  myfont = pygame.font.Font (None, 50)
+  mytext = myfont.render(message, True, WHITE, BLUE)
+  screen.blit(mytext, (240, 50))
+  #title for instructions page is made
+  rule1= ("1. You will be using the arrow keys to move the fish")
+  rule2= ("2. The fish will have obstacles in its path (seaweed)")
+  rule3= ("3. If the fish comes in contact with any of the obstacles, the game will be over")
+  rule4= ("4. The fish’s path will include 3 coins!")
+  rule5= ("5. You must collect the 3 coins and reach the end of the screen to win!")
+  #rules for the game are created
+  myfont = pygame.font.Font (None, 35)
+  mytext = myfont.render(rule1, True, WHITE, BLUE)
+  screen.blit(mytext, (50, 150))
+  myfont = pygame.font.Font (None, 35)
+  mytext = myfont.render(rule2, True, WHITE, BLUE)
+  screen.blit(mytext, (50, 180))
+  myfont = pygame.font.Font (None, 35)
+  mytext = myfont.render(rule3, True, WHITE, BLUE)
+  screen.blit(mytext, (50, 210))
+  myfont = pygame.font.Font (None, 35)
+  mytext = myfont.render(rule4, True, WHITE, BLUE)
+  screen.blit(mytext, (50, 240))
+  myfont = pygame.font.Font (None, 35)
+  mytext = myfont.render(rule5, True, WHITE, BLUE)
+  screen.blit(mytext, (50, 270))
+  #rules for the game are displayed
+  next= ("click anywhere on the screen to continue!")
+  myfont = pygame.font.Font (None, 25)
+  mytext = myfont.render(next, True, WHITE, BLUE)
+  screen.blit(mytext, (330, 400))
+  #when user clicks the screen, they will have the option to start playing. 
+  pygame.display.update()
+
+
+#the function for the actual game is created.
+def game():
+  pygame.init()
+  size= (1000, 600)
+  global screen
+  screen = pygame.display.set_mode(size)
+  #screen size is set
+  global BLUE
+  global WHITE
+  BLUE= (0, 102, 204)
+  WHITE= (255, 255, 255)
+  #BLACK= (0, 0, 0)
+  #rgb colours are assigned to variables
+  pygame.display.set_caption("Level 1")
+  #display caption is set to the name of the game
+  screen.fill(BLUE)
+  #screen background is set to blue
+
+  global fish
+  #the variable fish is set globally
+
+  #game character,"fish" is created
+  fish = pygame.sprite.Sprite()	#creates a sprite called fish
+  fish.image = pygame.image.load("fishy.png")
+  #image of the fish is loaded
+  fish.rect = fish.image.get_rect()		#set the sprite's rectangular boundaries
+  x = 10 
+  y = 200
+  #the location of the fish's starting position is set
+
+  
+  finish = pygame.sprite.Sprite()	#creates a finish line for the game
+  finish.image = pygame.image.load("finish_line.jpg")
+  #an image of a finish line is loaded
+  #image of the finish line is found on google images. 
+  finish.rect = finish.image.get_rect()		#set the sprite's rectangular boundaries
+  finishx= 900 
+  finishy = 60
+  #the location of the finish line is set 
+  
+  seaweed1 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed1.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is loaded
+  seaweed1.rect = seaweed1.image.get_rect()		#set the sprite's rectangular boundaries
+  x1 = 170 
+  y1 = 10
+  #the location of the seaweed is set
+
+  seaweed1_5 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed1_5.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed1_5.rect = seaweed1_5.image.get_rect()		#set the sprite's rectangular boundaries
+  x1_5 = 170 
+  y1_5 = 130
+  #the location of the seaweed is set
+
+  seaweed2 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed2.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed2.rect = seaweed2.image.get_rect()		#set the sprite's rectangular boundaries
+  x2 = 170 
+  y2 = 250
+  #the location of the seaweed is set
+
+  seaweed2_5 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed2_5.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed2_5.rect = seaweed2_5.image.get_rect()		#set the sprite's rectangular boundaries
+  x2_5 = 450
+  y2_5 = 370
+  #the location of the seaweed is set
+
+  seaweed3 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed3.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed3.rect = seaweed3.image.get_rect()		#set the sprite's rectangular boundaries
+  x3 = 170 
+  y3 = 490
+  #the location of the seaweed is set
+
+  seaweed4 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed4.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed4.rect = seaweed4.image.get_rect()		#set the sprite's rectangular boundaries
+  x4 = 450 
+  y4 = 10
+  #the location of the seaweed is set
+
+  seaweed5 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed5.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed5.rect = seaweed5.image.get_rect()		#set the sprite's rectangular boundaries
+  x5 = 450 
+  y5 = 250
+  #the location of the seaweed is set
+
+  seaweed6 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed6.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed6.rect = seaweed6.image.get_rect()		#set the sprite's rectangular boundaries
+  x6 = 450 
+  y6 = 490
+  #the location of the seaweed is set
+
+  seaweed7 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed7.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed7.rect = seaweed7.image.get_rect()		#set the sprite's rectangular boundaries
+  x7 = 730 
+  y7 = 10
+  #the location of the seaweed is set
+
+  seaweed8 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed8.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed8.rect = seaweed8.image.get_rect()		#set the sprite's rectangular boundaries
+  x8 = 730 
+  y8 = 250
+  #the location of the seaweed is set
+
+  seaweed9 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed9.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed9.rect = seaweed2.image.get_rect()		#set the sprite's rectangular boundaries
+  x9 = 730 
+  y9 = 490
+  #the location of the seaweed is set
+
+  coin1 = pygame.sprite.Sprite()	#creates a sprite for the coins 
+  coin1.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin1.rect = coin1.image.get_rect()		#set the sprite's rectangular boundaries
+  x10 = 170
+  y10 = 370
+  #the location of the coin is set
+
+  coin2 = pygame.sprite.Sprite()	#creates a sprite for the coins
+  coin2.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin2.rect = coin2.image.get_rect()		#set the sprite's rectangular boundaries
+  x11 = 450
+  y11 = 125
+  #the location of the coin is set
+
+  coin3 = pygame.sprite.Sprite()	#creates a sprite for the coins
+  coin3.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin3.rect = coin3.image.get_rect()		#set the sprite's rectangular boundaries
+  x12 = 730
+  y12 = 370
+  #the location of the coin is set
+
+
+  movex = 0 
+  movey = 0
+  pygame.display.update([fish.rect])
+  pygame.display.update([seaweed1.rect])
+  pygame.display.update([seaweed1_5.rect])
+  pygame.display.update([seaweed2.rect])
+  pygame.display.update([seaweed2_5.rect])
+  pygame.display.update([seaweed3.rect])
+  pygame.display.update([seaweed4.rect])
+  pygame.display.update([seaweed5.rect])
+  pygame.display.update([seaweed6.rect])
+  pygame.display.update([seaweed7.rect])
+  pygame.display.update([seaweed8.rect])
+  pygame.display.update([seaweed9.rect])
+  pygame.display.update([coin1.rect])
+  pygame.display.update([coin2.rect])
+  pygame.display.update([coin3.rect])
+  pygame.display.update([finish.rect])
+  #all the sprites are displayed
+
+  while (True):
+    screen.fill(BLUE) 
+    #screen's background is set to blue
+    seaweed1.rect.topleft=(x1,y1)
+    seaweed1_5.rect.topleft=(x1_5,y1_5)
+    seaweed2.rect.topleft=(x2,y2)
+    seaweed2_5.rect.topleft=(x2_5,y2_5)
+    seaweed3.rect.topleft=(x3,y3)
+    seaweed4.rect.topleft=(x4,y4)
+    seaweed5.rect.topleft=(x5,y5)
+    seaweed6.rect.topleft=(x6,y6)
+    seaweed7.rect.topleft=(x7,y7)
+    seaweed8.rect.topleft=(x8,y8)
+    seaweed9.rect.topleft=(x9,y9)
+    coin1.rect.topleft=(x10,y10)
+    coin2.rect.topleft=(x11,y11)
+    coin3.rect.topleft=(x12,y12)
+    finish.rect.topleft=(finishx,finishy)
+    #the position of the sprite's are displayed
+
+    fish.rect.topleft=(x,y)
+    screen.blit(fish.image, fish.rect)	
+    screen.blit(seaweed1.image, seaweed1.rect)
+    screen.blit(seaweed1_5.image, seaweed1_5.rect)
+    screen.blit(seaweed2.image, seaweed2.rect)
+    screen.blit(seaweed2_5.image, seaweed2_5.rect)
+    screen.blit(seaweed3.image, seaweed3.rect)
+    screen.blit(seaweed4.image, seaweed4.rect)
+    screen.blit(seaweed5.image, seaweed5.rect)
+    screen.blit(seaweed6.image, seaweed6.rect)
+    screen.blit(seaweed7.image, seaweed7.rect)
+    screen.blit(seaweed8.image, seaweed8.rect)
+    screen.blit(seaweed9.image, seaweed9.rect)
+    screen.blit(coin1.image, coin1.rect)
+    screen.blit(coin2.image, coin2.rect)
+    screen.blit(coin3.image, coin3.rect)
+    screen.blit(finish.image, finish.rect)
+    x = x + movex 
+    y = y + movey
+    #Used in the movement of the fish
+
+    if (pygame.sprite.collide_rect(fish,seaweed1)) or (pygame.sprite.collide_rect(fish,seaweed1_5)) or (pygame.sprite.collide_rect(fish,seaweed2)) or  (pygame.sprite.collide_rect(fish,seaweed2_5)) or(pygame.sprite.collide_rect(fish,seaweed3)) or (pygame.sprite.collide_rect(fish,seaweed4)) or (pygame.sprite.collide_rect(fish,seaweed5)) or (pygame.sprite.collide_rect(fish,seaweed6)) or (pygame.sprite.collide_rect(fish,seaweed7)) or (pygame.sprite.collide_rect(fish,seaweed8)) or (pygame.sprite.collide_rect(fish,seaweed9)):
+      pygame.quit()
+      over=easygui.buttonbox("You lost! You collided with the seaweed!\n\nTry this level again, or leave the game!", choices= ["Try Again", "Leave Game"])
+      if over == ("Try Again"):
+        game()
+      elif over == ("Leave Game"):
+        quit()
+      time.sleep (0.03)
+      pygame.display.update()
+      
+      #an easygui button box is displayed, telling the player they have lost. then gives them the option to play or leave the game
+
+    if (pygame.sprite.collide_rect(fish,coin1)):
+      points=0
+      points=points+1
+      x10=2000
+      y10=2000
+      print (points)
+    elif (pygame.sprite.collide_rect(fish,coin2)):
+      points=points+1
+      x11=2000
+      x11=2000
+      print (points)
+    elif (pygame.sprite.collide_rect(fish,coin3)):
+      points=points+1
+      x12=2000
+      x12=2000
+      print (points)
+
+    # if the sprite collides with any of the coins, the coin will disappear off the screen and a point is added to the variable points
+
+    pygame.display.update()	#updates the screen
+
+    if (pygame.sprite.collide_rect(fish,finish)) and points ==3:
+      pygame.quit()
+      win=easygui.buttonbox("You completed level 1!\n\nGo to the next level, or leave the game!", choices= ["Next Level", "Leave Game"])
+      if win == ("Next Level"):
+          game2()
+      elif win == ("Leave Game"):
+          quit()
+      time.sleep (0.03)
+      pygame.display.update()
+
+      #when the fish collides with the finish line, and has 3 points, an easygui button box is displayed. it tells the user they have won and asks if they want to play again or leave the game. 
+
+    if (pygame.sprite.collide_rect(fish,finish)) and points <3:
+      pygame.quit()
+      win=easygui.buttonbox("You Lost!. You didn't collect all 3 coins!\n\nTry this level again, or leave the game!", choices= ["Try Again", "Leave Game"])
+      if win == ("Try Again"):
+          game()
+      elif win == ("Leave Game"):
+          quit()
+      time.sleep (0.03)
+      pygame.display.update()
+
+      #if the fish collides with the finish line and has less than 3 points, an easygui button box is displayed. it tells the user that they have lost because they haven't collected all 3 points. then it asks if they want to play again or leave the game. 
+
+    event=pygame.event.poll()
+    if (event.type==pygame.QUIT): #Quit the game
+      break
+    elif (event.type==pygame.KEYDOWN):	#KEYDOWN means a key is pressed
+      if (event.key==pygame.K_RIGHT):
+        movex = 3
+      elif (event.key==pygame.K_LEFT):
+        movex = -3
+      elif (event.key==pygame.K_UP):
+        movey = -3
+      elif (event.key==pygame.K_DOWN):
+        movey = 3
+    elif (event.type==pygame.KEYUP): #Let go of the key
+      movey = 0
+      movex = 0
+
+    time.sleep(0.003)
+
+#allows the user to move the fish with up, down, right, and left keys
+
+def game2():
+  points=0
+  pygame.init()
+  size= (1000, 600)
+  global screen
+  screen = pygame.display.set_mode(size)
+  #screen size is set
+  global BLUE
+  global WHITE
+  BLUE= (0, 102, 204)
+  WHITE= (255, 255, 255)
+  #BLACK= (0, 0, 0)
+  #rgb colours are assigned to variables
+  pygame.display.set_caption("Level 2")
+  #display caption is set to the name of the game
+  screen.fill(BLUE)
+  #screen background is set to blue
+
+  global fish
+  #the variable fish is set globally
+
+  #game character,"fish" is created
+  fish = pygame.sprite.Sprite()	#creates a sprite called fish
+  fish.image = pygame.image.load("fishy.png")
+  #image of the fish is loaded
+  fish.rect = fish.image.get_rect()		#set the sprite's rectangular boundaries
+  x = 10 
+  y = 200
+  #the location of the fish's starting position is set
+
+  
+  finish = pygame.sprite.Sprite()	#creates a finish line for the game
+  finish.image = pygame.image.load("finish_line.jpg")
+  #an image of a finish line is loaded
+  #image of the finish line is found on google images. 
+  finish.rect = finish.image.get_rect()		#set the sprite's rectangular boundaries
+  finishx= 900 
+  finishy = 60
+  #the location of the finish line is set 
+  
+  seaweed1 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed1.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is loaded
+  seaweed1.rect = seaweed1.image.get_rect()		#set the sprite's rectangular boundaries
+  x1 = 170 
+  y1 = 10
+  #the location of the seaweed is set
+
+  seaweed2 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed2.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed2.rect = seaweed2.image.get_rect()		#set the sprite's rectangular boundaries
+  x2 = 170 
+  y2 = 250
+  #the location of the seaweed is set
+
+  seaweed3 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed3.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed3.rect = seaweed3.image.get_rect()		#set the sprite's rectangular boundaries
+  x3 = 170 
+  y3 = 490
+  #the location of the seaweed is set
+
+  seaweed4 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed4.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed4.rect = seaweed4.image.get_rect()		#set the sprite's rectangular boundaries
+  x4 = 450 
+  y4 = 10
+  #the location of the seaweed is set
+
+  seaweed5 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed5.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed5.rect = seaweed5.image.get_rect()		#set the sprite's rectangular boundaries
+  x5 = 450 
+  y5 = 250
+  #the location of the seaweed is set
+
+  seaweed6 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed6.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed6.rect = seaweed6.image.get_rect()		#set the sprite's rectangular boundaries
+  x6 = 450 
+  y6 = 490
+  #the location of the seaweed is set
+
+  seaweed7 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed7.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed7.rect = seaweed7.image.get_rect()		#set the sprite's rectangular boundaries
+  x7 = 730 
+  y7 = 10
+  #the location of the seaweed is set
+
+  seaweed8 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed8.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed8.rect = seaweed8.image.get_rect()		#set the sprite's rectangular boundaries
+  x8 = 730 
+  y8 = 250
+  #the location of the seaweed is set
+
+  seaweed9 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed9.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed9.rect = seaweed9.image.get_rect()		#set the sprite's rectangular boundaries
+  x9 = 730 
+  y9 = 490
+  #the location of the seaweed is set
+
+  coin1 = pygame.sprite.Sprite()	#creates a sprite for the coins 
+  coin1.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin1.rect = coin1.image.get_rect()		#set the sprite's rectangular boundaries
+  x10 = 170
+  y10 = 370
+  #the location of the coin is set
+
+  coin2 = pygame.sprite.Sprite()	#creates a sprite for the coins
+  coin2.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin2.rect = coin2.image.get_rect()		#set the sprite's rectangular boundaries
+  x11 = 310
+  y11 = 15
+  #the location of the coin is set
+
+  coin3 = pygame.sprite.Sprite()	#creates a sprite for the coins
+  coin3.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin3.rect = coin3.image.get_rect()		#set the sprite's rectangular boundaries
+  x12 = 590
+  y12 = 480
+  #the location of the coin is set
+
+  movex = 0 
+  movey = 0
+  pygame.display.update([fish.rect])
+  pygame.display.update([seaweed1.rect])
+  pygame.display.update([seaweed2.rect])
+  pygame.display.update([seaweed3.rect])
+  pygame.display.update([seaweed4.rect])
+  pygame.display.update([seaweed5.rect])
+  pygame.display.update([seaweed6.rect])
+  pygame.display.update([seaweed7.rect])
+  pygame.display.update([seaweed8.rect])
+  pygame.display.update([seaweed9.rect])
+  pygame.display.update([coin1.rect])
+  pygame.display.update([coin2.rect])
+  pygame.display.update([coin3.rect])
+  pygame.display.update([finish.rect])
+  #all the sprites are displayed
+
+  while (True):
+    screen.fill(BLUE) 
+    #screen's background is set to blue
+    seaweed1.rect.topleft=(x1,y1)
+    seaweed2.rect.topleft=(x2,y2)
+    seaweed3.rect.topleft=(x3,y3)
+    seaweed4.rect.topleft=(x4,y4)
+    seaweed5.rect.topleft=(x5,y5)
+    seaweed6.rect.topleft=(x6,y6)
+    seaweed7.rect.topleft=(x7,y7)
+    seaweed8.rect.topleft=(x8,y8)
+    seaweed9.rect.topleft=(x9,y9)
+    coin1.rect.topleft=(x10,y10)
+    coin2.rect.topleft=(x11,y11)
+    coin3.rect.topleft=(x12,y12)
+    finish.rect.topleft=(finishx,finishy)
+    #the position of the sprite's are displayed
+
+    fish.rect.topleft=(x,y)
+    screen.blit(fish.image, fish.rect)	
+    screen.blit(seaweed1.image, seaweed1.rect)
+    screen.blit(seaweed2.image, seaweed2.rect)
+    screen.blit(seaweed3.image, seaweed3.rect)
+    screen.blit(seaweed4.image, seaweed4.rect)
+    screen.blit(seaweed5.image, seaweed5.rect)
+    screen.blit(seaweed6.image, seaweed6.rect)
+    screen.blit(seaweed7.image, seaweed7.rect)
+    screen.blit(seaweed8.image, seaweed8.rect)
+    screen.blit(seaweed9.image, seaweed9.rect)
+    screen.blit(coin1.image, coin1.rect)
+    screen.blit(coin2.image, coin2.rect)
+    screen.blit(coin3.image, coin3.rect)
+    screen.blit(finish.image, finish.rect)
+    x = x + movex 
+    y = y + movey
+    #Used in the movement of the fish
+
+    if (pygame.sprite.collide_rect(fish,seaweed1)) or (pygame.sprite.collide_rect(fish,seaweed2)) or  (pygame.sprite.collide_rect(fish,seaweed3)) or (pygame.sprite.collide_rect(fish,seaweed4)) or (pygame.sprite.collide_rect(fish,seaweed5)) or (pygame.sprite.collide_rect(fish,seaweed6)) or (pygame.sprite.collide_rect(fish,seaweed7)) or (pygame.sprite.collide_rect(fish,seaweed8)) or (pygame.sprite.collide_rect(fish,seaweed9)):
+      pygame.quit()
+      over=easygui.buttonbox("You lost! You collided with the seaweed!\n\nTry this level again, or leave the game!", choices= ["Try Again", "Leave Game"])
+      if over == ("Try Again"):
+        game2()
+      elif over == ("Leave Game"):
+        quit()
+      time.sleep (0.03)
+      pygame.display.update()
+      
+      #an easygui button box is displayed, telling the player they have lost. then gives them the option to play or leave the game
+
+    if (pygame.sprite.collide_rect(fish,coin1)):
+          points=points+1
+          x10=2000
+          x10=2000
+          print (points)
+    elif (pygame.sprite.collide_rect(fish,coin2)):
+          points=points+1
+          x11=2000
+          x11=2000
+          print (points)
+    elif (pygame.sprite.collide_rect(fish,coin3)):
+          points=points+1
+          x12=2000
+          x12=2000
+          print (points)
+    
+    # if the sprite collides with any of the coins, the coin will disappear off the screen and a point is added to the variable points
+
+    pygame.display.update()	#updates the screen
+
+    if (pygame.sprite.collide_rect(fish,finish)) and points ==3:
+      pygame.quit()
+      win=easygui.buttonbox("You completed level 2!\n\nGo to the next level, or leave the game!", choices= ["Next Level", "Leave Game"])
+      if win == ("Next Level"):
+          easygui.msgbox ("For the next level, you must avoid the sharp part of the fishing hook!")
+          game3()
+      elif win == ("Leave Game"):
+          quit()
+      time.sleep (0.03)
+      pygame.display.update()
+
+      #when the fish collides with the finish line, and has 3 points, an easygui button box is displayed. it tells the user they have won and asks if they want to play again or leave the game. 
+
+    if (pygame.sprite.collide_rect(fish,finish)) and points <3:
+      pygame.quit()
+      win=easygui.buttonbox("You Lost!. You didn't collect all 3 coins!\n\nTry this level again, or leave the game!", choices= ["Try Again", "Leave Game"])
+      if win == ("Try Again"):
+          game2()
+      elif win == ("Leave Game"):
+          quit()
+      time.sleep (0.03)
+      pygame.display.update()
+
+      #if the fish collides with the finish line and has less than 3 points, an easygui button box is displayed. it tells the user that they have lost because they haven't collected all 3 points. then it asks if they want to play again or leave the game. 
+
+    event=pygame.event.poll()
+    if (event.type==pygame.QUIT): #Quit the game
+      break
+    elif (event.type==pygame.KEYDOWN):	#KEYDOWN means a key is pressed
+      if (event.key==pygame.K_RIGHT):
+        movex = 3
+      elif (event.key==pygame.K_LEFT):
+        movex = -3
+      elif (event.key==pygame.K_UP):
+        movey = -3
+      elif (event.key==pygame.K_DOWN):
+        movey = 3
+    elif (event.type==pygame.KEYUP): #Let go of the key
+      movey = 0
+      movex = 0
+    time.sleep(0.003)
+
+#allows the user to move the fish with up, down, right, and left keys
+
+def game3():
+  
+  points=0
+  pygame.init()
+  size= (1000, 600)
+  global screen
+  screen = pygame.display.set_mode(size)
+  #screen size is set
+  global BLUE
+  global WHITE
+  BLUE= (0, 102, 204)
+  WHITE= (255, 255, 255)
+  #BLACK= (0, 0, 0)
+  #rgb colours are assigned to variables
+  pygame.display.set_caption("Level 3")
+  #display caption is set to the name of the game
+  screen.fill(BLUE)
+  #screen background is set to blue
+
+  global fish
+  #the variable fish is set globally
+
+  #game character,"fish" is created
+  fish = pygame.sprite.Sprite()	#creates a sprite called fish
+  fish.image = pygame.image.load("fishy.png")
+  #image of the fish is loaded
+  fish.rect = fish.image.get_rect()		#set the sprite's rectangular boundaries
+  x = 10 
+  y = 200
+  #the location of the fish's starting position is set
+
+  
+  finish = pygame.sprite.Sprite()	#creates a finish line for the game
+  finish.image = pygame.image.load("finish_line.jpg")
+  #an image of a finish line is loaded
+  #image of the finish line is found on google images. 
+  finish.rect = finish.image.get_rect()		#set the sprite's rectangular boundaries
+  finishx= 900 
+  finishy = 60
+  #the location of the finish line is set 
+  
+  seaweed1 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed1.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is loaded
+  seaweed1.rect = seaweed1.image.get_rect()		#set the sprite's rectangular boundaries
+  x1 = 170 
+  y1 = 10
+  #the location of the seaweed is set
+
+  seaweed2 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed2.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed2.rect = seaweed2.image.get_rect()		#set the sprite's rectangular boundaries
+  x2 = 170 
+  y2 = 250
+  #the location of the seaweed is set
+
+  seaweed3 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed3.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed3.rect = seaweed3.image.get_rect()		#set the sprite's rectangular boundaries
+  x3 = 170 
+  y3 = 490
+  #the location of the seaweed is set
+
+  seaweed4 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed4.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed4.rect = seaweed4.image.get_rect()		#set the sprite's rectangular boundaries
+  x4 = 450 
+  y4 = 10
+  #the location of the seaweed is set
+
+  seaweed5 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed5.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed5.rect = seaweed5.image.get_rect()		#set the sprite's rectangular boundaries
+  x5 = 450 
+  y5 = 250
+  #the location of the seaweed is set
+
+  seaweed6 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed6.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed6.rect = seaweed6.image.get_rect()		#set the sprite's rectangular boundariesx
+  x6 = 450 
+  y6 = 490
+  #the location of the seaweed is set
+
+  seaweed7 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed7.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed7.rect = seaweed7.image.get_rect()		#set the sprite's rectangular boundaries
+  x7 = 730 
+  y7 = 10
+  #the location of the seaweed is set
+
+  seaweed8 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed8.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed8.rect = seaweed8.image.get_rect()		#set the sprite's rectangular boundaries
+  x8 = 730 
+  y8 = 250
+  #the location of the seaweed is set
+
+  seaweed9 = pygame.sprite.Sprite()	#creates a sprite for the seaweed
+  seaweed9.image = pygame.image.load("seaweed.png")
+  #an image of the seaweed is set
+  seaweed9.rect = seaweed2.image.get_rect()		#set the sprite's rectangular boundaries
+  x9 = 730 
+  y9 = 490
+  #the location of the seaweed is set
+
+  coin1 = pygame.sprite.Sprite()	#creates a sprite for the coins 
+  coin1.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin1.rect = coin1.image.get_rect()		#set the sprite's rectangular boundaries
+  x10 = 305
+  y10 = 490
+  #the location of the coin is set
+
+  coin2 = pygame.sprite.Sprite()	#creates a sprite for the coins
+  coin2.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin2.rect = coin2.image.get_rect()		#set the sprite's rectangular boundaries
+  x11 = 310
+  y11 = 10
+  #the location of the coin is set
+
+  coin3 = pygame.sprite.Sprite()	#creates a sprite for the coins
+  coin3.image = pygame.image.load("coin.png")
+  #an image of the coin is set
+  coin3.rect = coin3.image.get_rect()		#set the sprite's rectangular boundaries
+  x12 = 590
+  y12 = 130
+  #the location of the coin is set
+
+  hookimage=pygame.sprite.Sprite() #create a sprite for hook
+  hookimage.image=pygame.image.load("hookimage.png")
+  #an image of the hook is set
+  hookimage.rect= hookimage.image.get_rect() #set the sprite's rectangular boundaries
+  hook2x=0
+  hook2y=2
+  #the location of the hook is set
+
+  collisionhook=pygame.sprite.Sprite()  #create a sprite for hook
+  collisionhook.image=pygame.image.load("collisionhook.png")
+  #an image of the hook is set
+  collisionhook.rect= collisionhook.image.get_rect() #set the sprite's rectangular boundaries
+  hookx=0
+  hooky=156
+  #the location of the hook is set
+
+  wall=pygame.sprite.Sprite() 
+  wall.image=pygame.image.load("wall.png")
+  wall.rect=wall.image.get_rect()
+  wallx=830
+  wally=10
+  
+
+  wall2=pygame.sprite.Sprite()
+  wall2.image=pygame.image.load("wall.png")
+  wall2.rect=wall2.image.get_rect()
+  wall2x=100
+  wall2y=10
+  
+
+  movex = 0 
+  movey = 0
+  pygame.display.update([wall.rect])
+  pygame.display.update([wall2.rect])
+  pygame.display.update([fish.rect])
+  pygame.display.update([seaweed1.rect])
+  pygame.display.update([seaweed2.rect])
+  pygame.display.update([seaweed3.rect])
+  pygame.display.update([seaweed4.rect])
+  pygame.display.update([seaweed5.rect])
+  pygame.display.update([seaweed6.rect])
+  pygame.display.update([seaweed7.rect])
+  pygame.display.update([seaweed8.rect])
+  pygame.display.update([seaweed9.rect])
+  pygame.display.update([coin1.rect])
+  pygame.display.update([coin2.rect])
+  pygame.display.update([coin3.rect])
+  pygame.display.update([finish.rect])
+  pygame.display.update([hookimage.rect])
+  pygame.display.update([collisionhook.rect])
+ 
+  #all the sprites are displayed
+  
+  while (True):
+    #hook moves off screen, then reset to the beginning of the screen and starts moving across the screen again
+    hookx=hookx+10
+    hook2x=hook2x+10
+    if hookx==1500:
+      hookx=-5
+      hook2x=-5
+      hookx=hookx+5
+      hook2x=hook2x+5
+      
+    screen.fill(BLUE) 
+    #screen's background is set to blue
+    wall.rect.topleft=(wallx, wally)
+    wall2.rect.topleft=(wall2x, wall2y)
+    seaweed1.rect.topleft=(x1,y1)
+    seaweed2.rect.topleft=(x2,y2)
+    seaweed3.rect.topleft=(x3,y3)
+    seaweed4.rect.topleft=(x4,y4)
+    seaweed5.rect.topleft=(x5,y5)
+    seaweed6.rect.topleft=(x6,y6)
+    seaweed7.rect.topleft=(x7,y7)
+    seaweed8.rect.topleft=(x8,y8)
+    seaweed9.rect.topleft=(x9,y9)
+    coin1.rect.topleft=(x10,y10)
+    coin2.rect.topleft=(x11,y11)
+    coin3.rect.topleft=(x12,y12)
+    finish.rect.topleft=(finishx,finishy)
+    hookimage.rect.topleft=(hook2x,hook2y)
+    collisionhook.rect.topleft=(hookx,hooky)
+    
+    #the position of the sprite's are displayed
+    screen.blit(wall.image, wall.rect)
+    screen.blit(wall2.image, wall2.rect)
+    fish.rect.topleft=(x,y)
+    screen.blit(fish.image, fish.rect)	
+    screen.blit(seaweed1.image, seaweed1.rect)
+    screen.blit(seaweed2.image, seaweed2.rect)
+    screen.blit(seaweed3.image, seaweed3.rect)
+    screen.blit(seaweed4.image, seaweed4.rect)
+    screen.blit(seaweed5.image, seaweed5.rect)
+    screen.blit(seaweed6.image, seaweed6.rect)
+    screen.blit(seaweed7.image, seaweed7.rect)
+    screen.blit(seaweed8.image, seaweed8.rect)
+    screen.blit(seaweed9.image, seaweed9.rect)
+    screen.blit(coin1.image, coin1.rect)
+    screen.blit(coin2.image, coin2.rect)
+    screen.blit(coin3.image, coin3.rect)
+    screen.blit(finish.image, finish.rect)
+    screen.blit(hookimage.image, (hook2x, 2))
+    screen.blit(collisionhook.image, (hookx, 156))
+    
+
+    x = x + movex 
+    y = y + movey
+    #Used in the movement of the fish
+
+    if (pygame.sprite.collide_rect(fish,seaweed1)) or (pygame.sprite.collide_rect(fish,seaweed2)) or (pygame.sprite.collide_rect(fish,seaweed3)) or (pygame.sprite.collide_rect(fish,seaweed4)) or (pygame.sprite.collide_rect(fish,seaweed5)) or (pygame.sprite.collide_rect(fish,seaweed6)) or (pygame.sprite.collide_rect(fish,seaweed7)) or (pygame.sprite.collide_rect(fish,seaweed8)) or (pygame.sprite.collide_rect(fish,seaweed9)):
+        pygame.quit()
+        over=easygui.buttonbox("You lost! You collided with the seaweed!\n\nTry this level again, or leave the game!", choices= ["Try Again", "Leave Game"])
+        if over == ("Try Again"):
+          game3()
+        elif over == ("Leave Game"):
+          quit()
+        time.sleep (0.03)
+        pygame.display.update()
+      
+      #an easygui button box is displayed, telling the player they have lost. then gives them the option to play or leave the game
+
+      
+    if (pygame.sprite.collide_rect(fish,coin1)):
+      points=points+1
+      x10=2000
+      y10=2000
+      print (points)
+    elif (pygame.sprite.collide_rect(fish,coin2)):
+      points=points+1
+      x11=2000
+      x11=2000
+      print (points)
+    elif (pygame.sprite.collide_rect(fish,coin3)):
+      points=points+1
+      x12=2000
+      x12=2000
+      print (points)
+
+    # if the sprite collides with any of the coins, the coin will disappear off the screen and a point is added to the variable points
+
+    if (pygame.sprite.collide_rect(fish, collisionhook)):
+      pygame.quit()
+      losehook= easygui.buttonbox("The hook caught you :(\n\nTry this level again or leave the game!", choices= ["Try Again", "Leave Game"])
+      if losehook== ("Try Again"):
+        game3()
+      elif losehook== ("Leave Game"):
+        quit()
+      time.sleep(0.03)
+      pygame.display.update
+
+    pygame.display.update()	#updates the screen
+
+
+    if (pygame.sprite.collide_rect(fish,finish)) and points ==3:
+      pygame.quit()
+      win=easygui.buttonbox("You completed all the levels! You won Fishy Swim!\n\nStart playing from level 1 again, or leave the game!", choices= ["Level 1", "Leave Game"])
+      if win == ("Level 1"):
+          game()
+      elif win == ("Leave Game"):
+          quit()
+      time.sleep (0.03)
+      pygame.display.update()
+
+      #when the fish collides with the finish line, and has 3 points, an easygui button box is displayed. it tells the user they have won and asks if they want to play again or leave the game. 
+
+    if (pygame.sprite.collide_rect(fish,finish)) and points <3:
+      pygame.quit()
+      win=easygui.buttonbox("You Lost!. You didn't collect all 3 coins!\n\nTry this level again, or leave the game!", choices= ["Try Again", "Leave Game"])
+      if win == ("Try Again"):
+          game3()
+      elif win == ("Leave Game"):
+          quit()
+      time.sleep (0.03)
+      pygame.display.update()
+      
+
+      #if the fish collides with the finish line and has less than 3 points, an easygui button box is displayed. it tells the user that they have lost because they haven't collected all 3 points. then it asks if they want to play again or leave the game. 
+
+    event=pygame.event.poll()
+    if (event.type==pygame.QUIT): #Quit the game
+      break
+    elif (event.type==pygame.KEYDOWN):	#KEYDOWN means a key is pressed
+      if (event.key==pygame.K_RIGHT):
+        movex = 3
+      elif (event.key==pygame.K_LEFT):
+        movex = -3
+      elif (event.key==pygame.K_UP):
+        movey = -3
+      elif (event.key==pygame.K_DOWN):
+        movey = 3
+    elif (event.type==pygame.KEYUP): #Let go of the key
+      movey = 0
+      movex = 0
+
+    time.sleep(0.003)
+
+#allows the user to move the fish with up, down, right, and left keys
+
+#a function for the introduction screen is created
+def intro_screen():
+  pygame.init()
+  size= (1000, 600)
+  global screen
+  screen = pygame.display.set_mode(size)
+  #screen size is set
+  global BLUE
+  global WHITE
+  BLUE= (0, 102, 204)
+  WHITE= (255, 255, 255)
+  #rgb colours are assigned to variables
+  pygame.display.set_caption("Fishy Swim")
+  #display caption is set to the name of the game
+  screen.fill(BLUE)
+  #title page background is set to blue
+  message= ("WELCOME TO FISHY SWIM!")
+  myfont = pygame.font.Font (None, 60)
+  mytext = myfont.render(message, True, WHITE, BLUE)
+  screen.blit(mytext, (225, 75))
+  #title of the game is displayed set to white
+  pygame.display.flip()
+  #everything is displayed
+
+  intro= ("click anywhere on the screen to continue!")
+  myfont = pygame.font.Font (None, 25)
+  mytext = myfont.render(intro, True, WHITE, BLUE)
+  screen.blit(mytext,(340, 350))
+  pygame.display.update() #updates the screen
+  #when user clicks the screen, they will continue
+
+  introfish = pygame.sprite.Sprite()	#creates a sprite called introfish
+  introfish.image = pygame.image.load("fishy.png")
+  introfish.rect = introfish.image.get_rect()		#set the sprite's rectangular boundaries
+  x20 = 420 
+  y20 = 200
+  #a fish for the intro screen is created 
+
+  pygame.display.update([introfish.rect])
+  #intro fish is displayed
+
+  introfish.rect.topleft=(x20,y20)
+  screen.blit(introfish.image, introfish.rect)	
+
+  pygame.display.update()
+
+  while True:
+    for e in pygame.event.get():
+      if e.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+      if e.type == pygame.MOUSEBUTTONDOWN:
+        pygame.quit()
+        intro= easygui.buttonbox("Read the instructions or start to play!", choices= ["Instructions","Play"])
+        if intro == ("Instructions"):
+          instructions ()
+        if intro == ("Play"):
+            game()
+          #elif gametype== ("Multi-Player"):
+            #multi()
+
+    
+    
+  time.sleep (0.03)
+  pygame.display.update()
+
+    #if user clicks screen, they will move on to the buttonbox. 
+
+intro_screen()
+#the function intro screen will run
